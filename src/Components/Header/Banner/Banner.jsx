@@ -9,9 +9,9 @@ import img6 from "../../../assets/images/banner/6.jpg";
 const Banner = () => {
   return (
     <div>
-      <div className="carousel w-full h-[600px]">
+      <div className="carousel w-full h-[600px] rounded-md mt-5">
         <div id="slide1" className="carousel-item relative w-full">
-          <img src={img1} className="w-full" />
+          <img src={img4} className="w-full" />
           <div className="absolute flex items-center pl-10 h-full left-0 top-0 bg-gradient-to-r  from-[#151515] to-[rgba(21, 21, 21, 0.00)]">
             <div className="space-y-7 text-white w-1/3">
               <h2 className="text-5xl  font-bold">
@@ -61,7 +61,7 @@ const Banner = () => {
           </div>
         </div>
         <div id="slide4" className="carousel-item relative w-full">
-          <img src={img4} className="w-full" />
+          <img src={img1} className="w-full" />
           <div className="absolute flex justify-end gap-3 transform -translate-y-1/2 left-5 right-5 bottom-0">
             <a href="#slide3" className="btn btn-circle">
               ❮
