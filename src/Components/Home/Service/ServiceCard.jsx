@@ -18,7 +18,7 @@ const ServiceCard = ({ service }) => {
           </h2>
           <div className="card-actions flex gap-20 items-center mt-3">
             <p className="text-xl text-[#FF3811]">Price : {price}</p>
-            <Link to={`/Checkout/${_id}`}>
+            <Link to={`/book/${_id}`}>
               
               <button className="text-[#FF3811] text-2xl">
                 <BsBoxArrowInRight />

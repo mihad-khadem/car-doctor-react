@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 const Login = () => {
+  const { login } = useContext(AuthContext)
   // Toast 
   const Toast = Swal.mixin({
     toast: true,
@@ -18,7 +19,6 @@ const Login = () => {
   })
   const handleLogin = (e) => {
 
-    const { login } = useContext(AuthContext)
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     // const name = form.name.value;

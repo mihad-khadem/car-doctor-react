@@ -3,9 +3,21 @@ import { Link } from "react-router-dom";
 import vaultImg from "../../assets/images/login/login.svg";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {createUser} = useContext(AuthContext)
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   const handleRegister = (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget)
@@ -16,10 +28,18 @@ const Register = () => {
     createUser(email, password)
     .then(res => {
       const user = res.user;
-      console.log(user);
+      if(user){
+        Toast.fire({
+          icon: 'success',
+          title: 'Account created successfully'
+        })
+      }
     })
     .catch(err => {
-      console.log(err);
+      Toast.fire({
+        icon: 'error',
+        title: `Something went wrong ${err.message}`
+      })
     })
     
   };

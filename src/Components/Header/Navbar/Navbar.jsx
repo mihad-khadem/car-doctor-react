@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
+import { AuthContext } from "../../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext)
+  const handleLogOut = () => {
+    logout()
+    .then(res => {
+      if(res){
+        Swal.fire('Logged Out', 'success')
+      }
+    })
+    .catch(() => {
+      Swal.fire('Something went wrong', 'error')
+    })
+  }
   const navLinks = (
     <>
       <li><Link to={'/'}>Home</Link></li>
@@ -10,6 +24,8 @@ const Navbar = () => {
       <li><Link >Services</Link></li>
       <li><Link >Blog</Link></li>
       <li><Link >Contact</Link></li>
+     { user?.email ? <li><button onClick={handleLogOut}>Logout</button></li> : <li><Link to={'/login'}>Login</Link></li> 
+      }
     </>
   );
   return (
