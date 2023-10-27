@@ -1,6 +1,7 @@
 import React from "react";
 
-import { BsBoxArrowInRight } from 'react-icons/bs';
+import { BsBoxArrowInRight } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 // BsBoxArrowInRight
 const ServiceCard = ({ service }) => {
@@ -12,10 +13,17 @@ const ServiceCard = ({ service }) => {
           <img src={img} alt={title} className="rounded-xl w-[350px]" />
         </figure>
         <div className="card-body items-center">
-          <h2 className="text-2xl text-left text-[#444] font-semibold">{title}</h2>
+          <h2 className="text-2xl text-left text-[#444] font-semibold">
+            {title}
+          </h2>
           <div className="card-actions flex gap-20 items-center mt-3">
             <p className="text-xl text-[#FF3811]">Price : {price}</p>
-            <button className="text-[#FF3811] text-2xl"><BsBoxArrowInRight/></button>
+            <Link to={`/Checkout/${_id}`}>
+              
+              <button className="text-[#FF3811] text-2xl">
+                <BsBoxArrowInRight />
+              </button>
+            </Link>
           </div>
         </div>
       </div>
