@@ -20,7 +20,7 @@ const Navbar = () => {
   const navLinks = (
     <>
       <li><Link to={'/'}>Home</Link></li>
-      <li><Link >Services</Link></li>
+      <li><a href="#service">Services</a></li>
       <li><Link >Contact</Link></li>
      { user?.email ? <>
       <li><Link to={'/bookings'}>My Bookings</Link></li>

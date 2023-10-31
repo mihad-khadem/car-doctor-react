@@ -16,8 +16,8 @@ useEffect(() => {
 
 
     return (
-        <div>
-            <div>
+        <div id='#service'>
+            <div >
                 <div className='text-center space-y-5'>
                     <h2 className='text-xl font-semibold text-[#FF3811]'>Service</h2>
                     <h2 className='text-5xl font-semibold '>Our Service Area</h2>
