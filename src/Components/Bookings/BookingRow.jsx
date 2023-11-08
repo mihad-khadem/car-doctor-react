@@ -2,7 +2,7 @@ import { data } from "autoprefixer";
 import React from "react";
 import Swal from "sweetalert2";
 
-const BookingRow = ({ booking, handleDelete }) => {
+const BookingRow = ({ booking, handleDelete, confirmBooking }) => {
   const {
     _id,
     serviceName,
@@ -11,6 +11,7 @@ const BookingRow = ({ booking, handleDelete }) => {
     selectedDate,
     customerEmail,
     dueAmount,
+    status
   } = booking;
   return (
     <tr>
@@ -53,7 +54,7 @@ const BookingRow = ({ booking, handleDelete }) => {
       <td>{dueAmount} $</td>
       <td>{selectedDate}</td>
       <th>
-        <button className="btn btn-ghost btn-xs">details</button>
+        {status === 'Confirmed' ? <span>Confirmed</span> : <button onClick={() => confirmBooking(_id)} className="btn btn-ghost btn-xs">Confirm</button>}
       </th>
     </tr>
   );

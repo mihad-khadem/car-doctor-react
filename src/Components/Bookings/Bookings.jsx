@@ -1,57 +1,71 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-
 import Navbar from "../Header/Navbar/Navbar";
 import BookingRow from "./BookingRow";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setBookings(data));
-  }, []);
-  const handleDelete = id => {
-    const proceed = Swal.fire({
-      title: 'Are you sure?',
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((data) => setBookings(data));
+    axios.get(url, {withCredentials: true})
+    .then(res => {
+      console.log(res.data);
+      setBookings(res.data)
+    })
+  }, [url]);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-        fetch(`http://localhost:5000/bookings/${id}`,{
-          method: 'DELETE'
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        fetch(`http://localhost:5000/bookings/${id}`, {
+          method: "DELETE",
         })
-        .then(res => res.json())
-        .then(data =>{
-          if(data){
-            const remaining = bookings.filter(booking => booking._id !== id);
-            setBookings(remaining)
-          }
-        })
-
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              const remaining = bookings.filter(
+                (booking) => booking._id !== id
+              );
+              setBookings(remaining);
+            }
+          });
+      } else {
+        Swal.fire("Cenceled!", "Your file is safe", "success");
       }
-      else{
-        Swal.fire(
-          'Cenceled!',
-          'Your file is safe',
-          'success'
-        )
+    });
+  };
+  // update bookings
+  const confirmBooking = id => {
+    fetch(`http://localhost:5000/bookings/${id}`,{
+      method: 'PATCH',
+      headers: {'Content-Type' : 'application/json' },
+      body: JSON.stringify({status : 'Confirmed'})
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.modifiedCount > 0) {
+        Swal.fire('success','Booking Confirmed', 'success')
+        const remaining = bookings.filter(booking => booking._id !== id)
+        const updated = bookings.find(booking => booking._id === id)
+        updated.status = 'confirmed'
+        const newBooking = [updated, ...remaining]
+        setBookings(newBooking)
       }
     })
-    
-
   }
   // console.log(bookings);
   return (
@@ -61,7 +75,7 @@ const Bookings = () => {
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
-            <thead >
+            <thead>
               <tr>
                 <th>
                   <label>
@@ -77,10 +91,14 @@ const Bookings = () => {
             </thead>
             <tbody>
               {/* row  */}
-              {
-                bookings.map(booking => <BookingRow key={booking._id} booking={booking} handleDelete={handleDelete}></BookingRow>)
-              }
-              
+              {bookings.map((booking) => (
+                <BookingRow
+                  key={booking._id}
+                  booking={booking}
+                  handleDelete={handleDelete}
+                  confirmBooking={confirmBooking}
+                  ></BookingRow>
+              ))}
             </tbody>
           </table>
         </div>
