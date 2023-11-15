@@ -38,7 +38,7 @@ const Login = () => {
           });
           // get access token
           axios
-            .post(`http://localhost:5000/jwt`, user, { withCredentials: true })
+            .post(`http://localhost:5000/jwt`,user, { withCredentials: true })
             .then((response) => {
               if (response.data.success) {
                 navigate(location?.state ? location?.state : "/");

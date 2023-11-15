@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import app from "../Firebase/firebase.config.js";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -30,8 +31,29 @@ const logout = () => {
 // Listen for authentication state changes
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const userEmail = currentUser?.email || user?.email;
+    const loggedInUser = {email: userEmail}
     setUser(currentUser);
     setLoading(false);
+    // If user exists, issue a refresh token
+    if(currentUser){
+      axios.post(`http://localhost:5000/jwt`,loggedInUser, { withCredentials:true} )
+      .then(res => {
+        console.log("client token response", res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
+    else{
+      axios.post('http://localhost:5000/logout', loggedInUser, {withCredentials: true})
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
   });
 //  console.log(user);
   // Unsubscribe when the component unmounts
