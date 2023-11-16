@@ -1,12 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import vaultImg from "../../assets/images/login/login.svg";
-import { useContext } from "react";
-import { AuthContext } from "../../Provider/AuthProvider";
+// import { useContext } from "react";
+// import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import Navbar from "../Header/Navbar/Navbar";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const {login} = useAuth()
+  // const { login } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   // Toast
