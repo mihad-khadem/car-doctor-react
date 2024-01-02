@@ -37,7 +37,7 @@ useEffect(() => {
     setLoading(false);
     // If user exists, issue a refresh token
     if(currentUser){
-      axios.post(`http://localhost:5000/jwt`,loggedInUser, { withCredentials:true} )
+      axios.post(`https://car-dr-server.vercel.app/jwt`,loggedInUser, { withCredentials:true} )
       .then(res => {
         console.log("client token response", res.data);
       })
@@ -46,7 +46,7 @@ useEffect(() => {
       })
     }
     else{
-      axios.post('http://localhost:5000/logout', loggedInUser, {withCredentials: true})
+      axios.post('https://car-dr-server.vercel.app/logout', loggedInUser, {withCredentials: true})
       .then(res => {
         console.log(res.data);
       })
